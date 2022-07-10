@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandNetLib", "CommandNetLib\CommandNetLib.csproj", "{72D8F469-C7C2-471D-85F5-F30FF77FC7D3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteNetLib", "Dependencies\LiteNetLib\LiteNetLib.csproj", "{006E2C75-187C-4B45-B7BA-55DCA1D254FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{72D8F469-C7C2-471D-85F5-F30FF77FC7D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72D8F469-C7C2-471D-85F5-F30FF77FC7D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72D8F469-C7C2-471D-85F5-F30FF77FC7D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72D8F469-C7C2-471D-85F5-F30FF77FC7D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{006E2C75-187C-4B45-B7BA-55DCA1D254FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{006E2C75-187C-4B45-B7BA-55DCA1D254FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{006E2C75-187C-4B45-B7BA-55DCA1D254FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{006E2C75-187C-4B45-B7BA-55DCA1D254FF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7FA32460-CA84-4A41-A942-E918BBD183B6}
+	EndGlobalSection
+EndGlobal
