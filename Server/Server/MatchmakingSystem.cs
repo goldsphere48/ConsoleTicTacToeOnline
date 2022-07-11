@@ -1,8 +1,9 @@
-﻿using SharedModel;
+﻿using CommandNetLib;
+using SharedModel;
 
 namespace Server
 {
-    internal class MatchmakingSystem
+    internal class MatchmakingSystem : ITickable
     {
         private readonly List<Player> _players;
         private object locker = new object();
@@ -22,26 +23,29 @@ namespace Server
             }
         }
 
-        public void Start()
+        private Tuple<int, int> Generate2Id()
         {
-            void StartTask()
+            var random = new Random();
+            var firstId = random.Next(0, _players.Count);
+            int secondId = -1;
+            while (firstId == secondId || secondId == -1)
             {
-                var random = new Random();
-                while (true)
-                {
-                    if (_players.Count >= 2)
-                    {
-                        var firstPlayer = _players[random.Next(_players.Count)];
-                        var secondPlayer = _players[random.Next(_players.Count)];
-                        _players.Remove(firstPlayer);
-                        _players.Remove(secondPlayer);
-                        PlayersReadyForGame?.Invoke(firstPlayer, secondPlayer);
-                    }
-                }
+                secondId = random.Next(0, _players.Count);
             }
+            return new Tuple<int, int>(firstId, secondId);
+        }
 
-            Task startTask = new Task(StartTask);
-            startTask.Start();
+        public void Tick()
+        {
+            if (_players.Count >= 2)
+            {
+                var ids = Generate2Id();
+                var firstPlayer = _players[ids.Item1];
+                var secondPlayer = _players[ids.Item2];
+                _players.Remove(firstPlayer);
+                _players.Remove(secondPlayer);
+                PlayersReadyForGame?.Invoke(firstPlayer, secondPlayer);
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Client.Scenes
     class SearchGameScene : ConsoleScene
     {
         private readonly Label _label;
-        private readonly string _labelText = "Searching game ";
+        private readonly string _labelText = "Searching game ...";
         private string _points;
         private readonly RemoteServer _server;
         private readonly Player _player;
@@ -23,17 +23,6 @@ namespace Client.Scenes
             _server = server;
             _label = new Label(_labelText);
             AddNode(_label);
-        }
-
-        public override void Update()
-        {
-            _points += ".";
-
-            if (_points.Length == 4)
-                _points = ".";
-
-            _label.Text = $"{_labelText}{_points}";
-            Thread.Sleep(300);
         }
 
         public override void OnEnable()

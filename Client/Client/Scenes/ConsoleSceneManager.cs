@@ -1,4 +1,5 @@
 ﻿using Client.UI;
+using CommandNetLib;
 
 namespace Client.Scenes
 {
@@ -27,37 +28,18 @@ namespace Client.Scenes
             if (!_scenes.ContainsKey(typeof(T)))
                 throw new InvalidOperationException("Scene is not registered");
 
+            Console.Clear();
             _currentScene?.OnDisable();
 
             _currentScene = _scenes[typeof(T)];
-
+            
+            Draw();
             _currentScene.OnEnable();
         }
 
         public void Draw()
         {
             _currentScene.Draw();
-        }
-
-        public void Update()
-        {
-            _currentScene.Update();
-        }
-
-        public void StartLoop()
-        {
-            void UpdateLoop()
-            {
-                while (true)
-                {
-                    Draw();
-                    Update();
-                    Console.Clear();
-                }
-            }
-
-            var loopTask = new Task(UpdateLoop);
-            loopTask.Start();
         }
     }
 }

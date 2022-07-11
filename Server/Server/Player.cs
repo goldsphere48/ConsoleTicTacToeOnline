@@ -5,14 +5,16 @@ namespace Server
 {
     internal class Player
     {
+        public PlayerData Data;
+
         public Player(RemoteClient client)
         {
             RemoteClient = client;
-            Data = new PlayerData { Id = client.Id };
+            Id = Guid.NewGuid();
+            Data = new PlayerData();
         }
 
         public RemoteClient RemoteClient { get; }
-        public PlayerData Data { get; }
-        public int Id => RemoteClient.Id;
-    }
+        public Guid Id { get; }
+    };
 }

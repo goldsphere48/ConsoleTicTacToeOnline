@@ -14,7 +14,7 @@ namespace Client.Scenes
             AddNode(new Label("exit - Quit the game"));
         }
 
-        public override void Update()
+        public override void OnEnable()
         {
             var input = Console.ReadLine();
             switch (input)

@@ -6,7 +6,7 @@ using SharedModel;
 
 namespace Client
 {
-    public class Client : IDisposable
+    public class Client : IDisposable, ITickable
     {
         private readonly NetLibClient _client;
         private readonly Player _player;
@@ -25,12 +25,17 @@ namespace Client
                 .BindHandler(new ConnectToServerApproveCommandHandler(player))
                 .Build();
 
-            var readyForGameCommand = new CommandBuilder<ReadyForGame>()
-                .BindHandler(new ReadyForGameCommandHandler())
+            var readyForGameCommand = new CommandBuilder<GameReady>()
+                .BindHandler(new GameReadyCommandHandler())
+                .Build();
+
+            var startGameCommand = new CommandBuilder<StartGame>()
+                .BindHandler(new StartGameCommandHandler())
                 .Build();
 
             _client.RegisterCommand(setPlayerIdCommand);
             _client.RegisterCommand(readyForGameCommand);
+            _client.RegisterCommand(startGameCommand);
         }
 
         public RemoteServer RemoteServer { get; private set; }
@@ -45,31 +50,21 @@ namespace Client
             _client.RegisterPacketHandler(handler);
         }
 
-        public void StartListening()
-        {
-            var pollEventsTask = new Task(PollEvents);
-            pollEventsTask.Start();
-        }
-
         private void OnConnectedToServer(RemoteServer server)
         {
             RemoteServer = server;
             Console.WriteLine($"[Client] Connection to server {server}");
         }
 
-        private void PollEvents()
-        {
-            while (true)
-            {
-                _client.PollEvents();
-                Thread.Sleep(100);
-            }
-        }
-
         public void Dispose()
         {
             _client.Stop();
             _client.ConnectedToServer -= OnConnectedToServer;
+        }
+
+        public void Tick()
+        {
+            _client.PollEvents();
         }
     }
 }

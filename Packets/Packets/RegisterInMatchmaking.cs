@@ -4,16 +4,16 @@ namespace Packets
 {
     public struct RegisterInMatchmaking : INetSerializable
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(Id);
+            writer.Put(Id.ToString());
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            Id = reader.GetInt();
+            Id = Guid.Parse(reader.GetString(36));
         }
     }
 }

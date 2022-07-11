@@ -2,18 +2,18 @@
 
 namespace Packets
 {
-    public struct ConnectToServerApprove : INetSerializable
+    public struct GameReady : INetSerializable
     {
-        public Guid PlayerID;
+        public Guid RoomID;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(PlayerID.ToString());
+            writer.Put(RoomID.ToString());
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            PlayerID = Guid.Parse(reader.GetString(36));
+            RoomID = Guid.Parse(reader.GetString(36));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CommandNetLib;
+﻿using System.Net;
+using CommandNetLib;
 using Packets;
 using Server;
 using Server.CommandHandlers;
@@ -19,6 +20,7 @@ namespace Sandbox
             _server.RegisterTypes<PacketsRegistry>();
             _server.RegisterTypes<SharedModelTypes>();
             _server.PlayerConnected += OnPlayerConnected;
+            _server.PlayerUnconnected += OnPlayerUnconnected;
             _server.Start();
 
             _matchmakingSystem = new MatchmakingSystem();
@@ -29,23 +31,37 @@ namespace Sandbox
                 .BindHandler(new RegisterInMatchmakingCommandHandler(_matchmakingSystem, _playersRegistry))
                 .Build();
 
+            var acceptGameCommand = new CommandBuilder<AcceptGame>()
+                .BindHandler(new AcceptGameCommandHandler(_roomRegistry))
+                .Build();
+
             _server.RegisterCommand(registerPlayerInGameCommand);
+            _server.RegisterCommand(acceptGameCommand);
 
             _matchmakingSystem.PlayersReadyForGame += _roomRegistry.CreateRoom;
-            _matchmakingSystem.Start();
+        }
+
+        private void OnPlayerUnconnected(RemoteClient client)
+        {
+            var player = _playersRegistry.FindPlayerByPeerId(client);
+            _playersRegistry.Remove(player);
+            var room = _roomRegistry.FindRoomWithPlayer(player);
+            _roomRegistry.CloseRoom(room);
+            
         }
 
         private void OnPlayerConnected(RemoteClient client)
         {
             Console.WriteLine($"[Server] Player {client} connected");
-            client.SendPacket(new ConnectToServerApprove { PlayerID = client.Id });
             var player = new Player(client);
+            client.SendPacket(new ConnectToServerApprove { PlayerID = player.Id });
             _playersRegistry.Add(player);
         }
 
         public void Tick()
         {
             _server.PollEvents();
+            _matchmakingSystem.Tick();
         }
 
         public void Dispose()

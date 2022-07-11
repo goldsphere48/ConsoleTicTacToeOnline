@@ -1,4 +1,5 @@
-﻿using LiteNetLib;
+﻿using System.Net;
+using LiteNetLib;
 
 namespace CommandNetLib
 {
@@ -8,9 +9,16 @@ namespace CommandNetLib
         {
             Listener.PeerConnectedEvent += OnPeerConnectedEvent;
             Listener.ConnectionRequestEvent += OnConnectionRequestEvent;
+            Listener.PeerDisconnectedEvent += OnNetworkReceiveUnconnectedEvent;
+        }
+
+        private void OnNetworkReceiveUnconnectedEvent(NetPeer peer, DisconnectInfo disconnectInfo)
+        {
+            PlayerUnconnected?.Invoke(new RemoteClient(peer, NetPacketProcessor));
         }
 
         public event Action<RemoteClient> PlayerConnected;
+        public event Action<RemoteClient> PlayerUnconnected;
 
         public override void Start()
         {

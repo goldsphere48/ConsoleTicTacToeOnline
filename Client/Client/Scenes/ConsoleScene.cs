@@ -22,11 +22,6 @@ namespace Client.Scenes
                 element.Draw();
         }
 
-        public virtual void Update()
-        {
-
-        }
-
         public virtual void OnEnable()
         {
 

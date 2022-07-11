@@ -6,16 +6,16 @@ static class Program
 {
     public static void Main()
     {
+        var threadPool = new ThreadPool();
         var player = new Player();
         using var client = new Client(player);
-        client.StartListening();
+        threadPool.StartLoop(client.Tick);
         WaitForConnection(client);
         ConsoleSceneManager.Instance.RegisterScene(new WelcomeScene());
         ConsoleSceneManager.Instance.RegisterScene(new SearchGameScene(client.RemoteServer, player));
-        ConsoleSceneManager.Instance.RegisterScene(new AcceptGameScene(client.RemoteServer));
+        ConsoleSceneManager.Instance.RegisterScene(new AcceptGameScene(client.RemoteServer, player));
         ConsoleSceneManager.Instance.ActivateScene<WelcomeScene>();
-        ConsoleSceneManager.Instance.StartLoop();
-        while (true)
+        while (threadPool.IsBusy())
         {
         }
     }
@@ -24,7 +24,9 @@ static class Program
     {
         while (client.RemoteServer == null)
         {
-            
+            Console.WriteLine("Trying to connect ... ");
+            Thread.Sleep(300);
+            Console.Clear();
         }
     }
 }

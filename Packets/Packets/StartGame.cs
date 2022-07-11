@@ -1,19 +1,20 @@
 ﻿using LiteNetLib.Utils;
+using SharedModel;
 
 namespace Packets
 {
-    public struct ReadyForGame : INetSerializable
+    public struct StartGame : INetSerializable
     {
-        public Guid RoomID;
+        public PlayerType PlayerType;
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(RoomID.ToString());
+            writer.Put((int)PlayerType);    
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            RoomID = Guid.Parse(reader.GetString(36));
+            PlayerType = (PlayerType)reader.GetInt();
         }
     }
 }

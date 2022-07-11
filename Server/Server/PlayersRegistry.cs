@@ -1,12 +1,15 @@
-﻿namespace Server
+﻿using System.Net;
+using CommandNetLib;
+
+namespace Server
 {
     internal class PlayersRegistry
     {
-        private readonly Dictionary<int, Player> _players;
+        private readonly Dictionary<Guid, Player> _players;
 
         public PlayersRegistry()
         {
-            _players = new Dictionary<int, Player>();
+            _players = new Dictionary<Guid, Player>();
         }
 
         public void Add(Player player)
@@ -14,7 +17,7 @@
             _players[player.Id] = player;
         }
 
-        public Player this[int index]
+        public Player this[Guid index]
         {
             get
             {
@@ -23,6 +26,16 @@
 
                 return _players[index];
             }
+        }
+
+        public void Remove(Player player)
+        {
+            _players.Remove(player.Id);
+        }
+
+        public Player? FindPlayerByPeerId(RemoteClient client)
+        {
+            return _players.Values.FirstOrDefault(p => p.RemoteClient.Id == client.Id);
         }
     }
 }

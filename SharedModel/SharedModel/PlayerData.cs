@@ -4,18 +4,18 @@ namespace SharedModel
 {
     public struct PlayerData : INetSerializable
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public PlayerType Type { get; set; }
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.Put(Id);
+            writer.Put(Id.ToString());
             writer.Put((int)Type);
         }
 
         public void Deserialize(NetDataReader reader)
         {
-            Id = reader.GetInt();
+            Id = Guid.Parse(reader.GetString(36));
             Type = (PlayerType)reader.GetInt();
         }
     }
