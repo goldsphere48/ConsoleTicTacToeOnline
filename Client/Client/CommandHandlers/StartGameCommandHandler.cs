@@ -4,9 +4,9 @@ using Packets;
 
 namespace Client.CommandHandlers
 {
-    internal class StartGameCommandHandler : ICommandHandler<StartGame>
+    internal class StartGameCommandHandler : Command<StartGame>
     {
-        public void Handle(StartGame payload)
+        public override void Handle(StartGame payload)
         {
             ConsoleSceneManager.Instance.RegisterScene(new GameScene(payload.PlayerType));
             ConsoleSceneManager.Instance.ActivateScene<GameScene>();

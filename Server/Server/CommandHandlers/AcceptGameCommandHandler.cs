@@ -3,7 +3,7 @@ using Packets;
 
 namespace Server.CommandHandlers
 {
-    internal class AcceptGameCommandHandler : ICommandHandler<AcceptGame>
+    internal class AcceptGameCommandHandler : Command<AcceptGame>
     {
         private readonly RoomRegistry _roomRegistry;
 
@@ -12,7 +12,7 @@ namespace Server.CommandHandlers
             _roomRegistry = roomRegistry;
         }
 
-        public void Handle(AcceptGame payload)
+        public override void Handle(AcceptGame payload)
         {
             var room = _roomRegistry.FindRoomWithPlayer(payload.PlayerId);
 

@@ -4,7 +4,7 @@ using Packets;
 
 namespace Server.CommandHandlers
 {
-    internal class RegisterInMatchmakingCommandHandler : ICommandHandler<RegisterInMatchmaking>
+    internal class RegisterInMatchmakingCommandHandler : Command<RegisterInMatchmaking>
     {
         private readonly MatchmakingSystem _matchmakingSystem;
         private readonly PlayersRegistry _playersRegistry;
@@ -15,7 +15,7 @@ namespace Server.CommandHandlers
             _playersRegistry = playersRegistry;
         }
 
-        public void Handle(RegisterInMatchmaking payload)
+        public override void Handle(RegisterInMatchmaking payload)
         {
             _matchmakingSystem.AddPlayerInQueue(_playersRegistry[payload.Id]);
         }

@@ -4,9 +4,9 @@ using Packets;
 
 namespace Client.CommandHandlers
 {
-    internal class GameReadyCommandHandler : ICommandHandler<GameReady>
+    internal class GameReadyCommandHandler : Command<GameReady>
     {
-        public void Handle(GameReady payload)
+        public override void Handle(GameReady payload)
         {
             ConsoleSceneManager.Instance.ActivateScene<AcceptGameScene>();
         }

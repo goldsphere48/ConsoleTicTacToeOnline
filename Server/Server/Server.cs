@@ -26,14 +26,9 @@ namespace Sandbox
             _matchmakingSystem = new MatchmakingSystem();
             _roomRegistry = new RoomRegistry();
             _playersRegistry = new PlayersRegistry();
-            
-            var registerPlayerInGameCommand = new CommandBuilder<RegisterInMatchmaking>()
-                .BindHandler(new RegisterInMatchmakingCommandHandler(_matchmakingSystem, _playersRegistry))
-                .Build();
 
-            var acceptGameCommand = new CommandBuilder<AcceptGame>()
-                .BindHandler(new AcceptGameCommandHandler(_roomRegistry))
-                .Build();
+            var registerPlayerInGameCommand = new RegisterInMatchmakingCommandHandler(_matchmakingSystem, _playersRegistry);
+            var acceptGameCommand = new AcceptGameCommandHandler(_roomRegistry);
 
             _server.RegisterCommand(registerPlayerInGameCommand);
             _server.RegisterCommand(acceptGameCommand);
@@ -47,7 +42,6 @@ namespace Sandbox
             _playersRegistry.Remove(player);
             var room = _roomRegistry.FindRoomWithPlayer(player);
             _roomRegistry.CloseRoom(room);
-            
         }
 
         private void OnPlayerConnected(RemoteClient client)

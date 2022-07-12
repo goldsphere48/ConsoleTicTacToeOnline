@@ -42,7 +42,11 @@ namespace CommandNetLib
 
         public static bool operator==(RemotePeer peer, RemotePeer other)
         {
-            if (other == null)
+            if (ReferenceEquals(peer, other))
+                return true;
+            if (ReferenceEquals(peer, null))
+                return false;
+            if (ReferenceEquals(other, null))
                 return false;
 
             return other.Equals(peer);

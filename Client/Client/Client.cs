@@ -21,17 +21,9 @@ namespace Client
             _client.RegisterPacketHandler<ConnectToServerApprove>(OnConnectApproveReceived);
             _client.Connect(9050);
 
-            var setPlayerIdCommand = new CommandBuilder<ConnectToServerApprove>()
-                .BindHandler(new ConnectToServerApproveCommandHandler(player))
-                .Build();
-
-            var readyForGameCommand = new CommandBuilder<GameReady>()
-                .BindHandler(new GameReadyCommandHandler())
-                .Build();
-
-            var startGameCommand = new CommandBuilder<StartGame>()
-                .BindHandler(new StartGameCommandHandler())
-                .Build();
+            var setPlayerIdCommand = new ConnectToServerApproveCommandHandler(player);
+            var readyForGameCommand = new GameReadyCommandHandler();
+            var startGameCommand = new StartGameCommandHandler();
 
             _client.RegisterCommand(setPlayerIdCommand);
             _client.RegisterCommand(readyForGameCommand);

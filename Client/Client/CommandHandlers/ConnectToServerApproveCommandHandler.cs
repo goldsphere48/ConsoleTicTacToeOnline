@@ -3,7 +3,7 @@ using Packets;
 
 namespace Client.CommandHandlers
 {
-    internal class ConnectToServerApproveCommandHandler : ICommandHandler<ConnectToServerApprove>
+    internal class ConnectToServerApproveCommandHandler : Command<ConnectToServerApprove>
     {
         private readonly Player _player;
 
@@ -12,7 +12,7 @@ namespace Client.CommandHandlers
             _player = player;
         }
 
-        public void Handle(ConnectToServerApprove payload)
+        public override void Handle(ConnectToServerApprove payload)
         {
             _player.Id = payload.PlayerID;
         }
